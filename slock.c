@@ -19,6 +19,10 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
+/*POSIX threading for auto-timeout*/
+#include <pthread.h>
+#include <time.h>
+
 #include "arg.h"
 #include "util.h"
 
@@ -219,6 +223,18 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 	}
 }
 
+void *timeoutCommand(void *args)
+{
+	int runflag=0;
+	while (!runonce || !runflag)
+	{
+		sleep(timeoffset);
+		runflag = 1;
+		system(command);
+	}
+	return args;
+}
+
 static struct lock *
 lockscreen(Display *dpy, struct xrandr *rr, int screen)
 {
@@ -387,6 +403,10 @@ main(int argc, char **argv) {
 			_exit(1);
 		}
 	}
+
+	/*Start the auto-timeout command in its own thread*/
+	pthread_t thread_id;
+	pthread_create(&thread_id, NULL, timeoutCommand, NULL);
 
 	/* everything is now blank. Wait for the correct password */
 	readpw(dpy, &rr, locks, nscreens, hash);

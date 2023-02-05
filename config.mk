@@ -29,4 +29,4 @@ COMPATSRC = explicit_bzero.c
 #COMPATSRC =
 
 # compiler and linker
-CC = cc
+CC = cc -pthread
