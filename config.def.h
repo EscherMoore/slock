@@ -15,6 +15,6 @@ static const int failonclear = 1;
 /* should [command] be run only once? */
 static const int runonce = 0;
 /* length of time (seconds) until [command] is executed */
-static const int timeoffset = 30;
+static const int timeoffset = 1800; /* 30 mins */
 /* command to be run after [timeoffset] seconds has passed */
-static const char *command = "/usr/bin/xset dpms force off";
+static const char *command = "systemctl suspend";
