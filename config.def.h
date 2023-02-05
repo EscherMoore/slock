@@ -11,6 +11,9 @@ static const char *colorname[NUMCOLS] = {
 /* treat a cleared input like a wrong password (color) */
 static const int failonclear = 1;
 
+/* time in seconds before the monitor shuts down */
+static const int monitortime = 30;
+
 /* Patch: auto-timeout */
 /* should [command] be run only once? */
 static const int runonce = 0;
